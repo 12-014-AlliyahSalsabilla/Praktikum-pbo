@@ -1,0 +1,58 @@
+import random
+
+def attack(attacker, defender):
+    if random.random() > 0.2:  # 80% chance to hit
+        damage = random.randint(50, 100)
+        defender['hp'] -= damage
+        defender['stamina'] -= 1
+        print(f"{attacker['name']} menyerang! {defender['name']} kehilangan {damage} HP.")
+    else:
+        print(f"------------ {attacker['name']} gagal menyerang ----------------")
+
+defense_bonus = 30
+
+def defend(player):
+    player['hp'] += defense_bonus
+    player['stamina'] += 1
+    print(f"{player['name']} bertahan! Mendapatkan {defense_bonus} HP & 1 stamina.")
+
+def battle():
+    atreus = {'name': 'Atreus', 'hp': 500, 'stamina': 10}
+    daedalus = {'name': 'Daedalus', 'hp': 750, 'stamina': 8}
+    round_num = 1
+    
+    while atreus['hp'] > 0 and daedalus['hp'] > 0:
+        print(f"\nRound-{round_num} ==========================================================")
+        print(f"Atreus [{atreus['hp']}|{atreus['stamina']}]")
+        print(f"Daedalus [{daedalus['hp']}|{daedalus['stamina']}]\n")
+        
+        atreus_action = int(input("1. Attack     2. Defense     3. Giveup\nAtreus, pilih aksi: "))
+        daedalus_action = int(input("\n1. Attack     2. Defense     3. Giveup\nDaedalus, pilih aksi: "))
+        
+        if atreus_action == 3:
+            print("\nDaedalus menang!")
+            return
+        elif atreus_action == 1 and atreus['stamina'] > 0:
+            attack(atreus, daedalus)
+        elif atreus_action == 2:
+            defend(atreus)
+        
+        if daedalus['hp'] <= 0:
+            print("\nAtreus menang!")
+            return
+        
+        if daedalus_action == 3:
+            print("\nAtreus menang!")
+            return
+        elif daedalus_action == 1 and daedalus['stamina'] > 0:
+            attack(daedalus, atreus)
+        elif daedalus_action == 2:
+            defend(daedalus)
+        
+        if atreus['hp'] <= 0:
+            print("\nDaedalus menang!")
+            return
+        
+        round_num += 1
+
+battle()
